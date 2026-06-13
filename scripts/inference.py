@@ -270,18 +270,24 @@ def inference(config_path: str, image_path: Optional[str] = None) -> None:
 
     # Interactive CLI routing
     if not image_path:
-        print("\n" + "=" * 50)
-        print("INTERACTIVE RADAR INFERENCE ENGINE")
-        print("Please drag & drop or type a chest radiograph image path:")
-        print("(Press Ctrl+C to terminate)")
-        print("=" * 50)
-        try:
-            image_path = input("Image Path: ").strip()
-            # Standardize path string cleanups from terminal interactions
-            image_path = image_path.replace("'", "").replace('"', "").strip()
-        except KeyboardInterrupt:
-            print("\nExiting CLI program...")
-            return
+        # Check if stdin is a TTY to avoid blocking in non-interactive / background environments
+        if sys.stdin.isatty():
+            print("\n" + "=" * 50)
+            print("INTERACTIVE RADAR INFERENCE ENGINE")
+            print("Please drag & drop or type a chest radiograph image path:")
+            print("(Press Ctrl+C to terminate)")
+            print("=" * 50)
+            try:
+                image_path = input("Image Path: ").strip()
+                # Standardize path string cleanups from terminal interactions
+                image_path = image_path.replace("'", "").replace('"', "").strip()
+            except KeyboardInterrupt:
+                print("\nExiting CLI program...")
+                return
+            except EOFError:
+                image_path = ""
+        else:
+            image_path = ""
 
     if image_path:
         run_single_inference(model, image_path, transform, device, config)
