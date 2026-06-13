@@ -1,0 +1,18 @@
+model:
+  input_size: 256
+  backbone: "resnet18" # Using a lightweight backbone for speed
+  feature_layers: [1, 2, 3] # Layers to extract features from
+  memory_bank_size: 100 # Number of normal patterns to store (simplified concept for this implementation)
+
+training:
+  batch_size: 16
+  learning_rate: 0.0001
+  epochs: 50
+  device: "cuda" # Will fallback to cpu/mps in code if not available
+
+data:
+  train_dir: "data/train/good"
+  test_dir: "data/test"
+  
+output:
+  results_dir: "outputs"

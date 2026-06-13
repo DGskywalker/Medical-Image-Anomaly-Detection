@@ -1,0 +1,15 @@
+name: radar
+channels:
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - numpy<2
+  - matplotlib
+  - pyyaml
+  - pillow
+  - tqdm
+  - scikit-learn
+  - pip:
+    - torch
+    - torchvision
